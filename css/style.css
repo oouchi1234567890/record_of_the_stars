@@ -1,0 +1,583 @@
+﻿/* style.css — 星のきろく（濃紺〜紫のネオン風テーマ） */
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: #0d0a1f;
+  background:
+    radial-gradient(ellipse at top, rgba(139, 92, 246, 0.14) 0%, rgba(13, 10, 31, 0.78) 48%, #0d0a1f 100%),
+    linear-gradient(180deg, #12102b 0%, #0d0a1f 58%, #0a0818 100%);
+  color: #e2e8f0;
+  font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100%;
+  padding: 20px 12px;
+}
+
+.screen {
+  display: none;
+  width: 100%;
+  max-width: 1240px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.screen.active {
+  display: flex;
+}
+
+.login-panel {
+  width: min(100%, 500px);
+  margin-top: 22px;
+  padding: 28px;
+  background: rgba(17, 13, 38, 0.92);
+  border: 1px solid rgba(139, 92, 246, 0.4);
+  border-radius: 10px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.4), inset 0 0 38px rgba(103, 232, 249, 0.05);
+}
+
+.story-panel {
+  width: 100%;
+  max-width: 760px;
+  margin-top: 16px;
+  padding: 28px;
+  background: rgba(12, 18, 38, 0.88);
+  border: 1px solid rgba(103, 232, 249, 0.28);
+  border-radius: 10px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.32), inset 0 0 36px rgba(139, 92, 246, 0.06);
+}
+
+.story-kicker {
+  margin: 0 0 10px;
+  color: #67e8f9;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.story-panel h2 {
+  margin: 0 0 16px;
+  color: #f0abfc;
+  font-size: 22px;
+  line-height: 1.45;
+}
+
+.story-panel p {
+  margin: 0 0 14px;
+  color: #cbd5e1;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.story-objectives {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.story-objectives span {
+  display: block;
+  flex: 1 1 180px;
+  padding: 9px 11px;
+  color: #dbeafe;
+  font-size: 12px;
+  font-weight: 700;
+  border: 1px solid rgba(103, 232, 249, 0.24);
+  border-radius: 6px;
+  background: rgba(20, 16, 46, 0.72);
+}
+
+.login-kicker {
+  margin: 0 0 8px;
+  color: #f0abfc;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-align: center;
+}
+
+.title-logo {
+  font-size: 40px;
+  letter-spacing: 3px;
+  color: #67e8f9;
+  text-shadow: 0 0 14px rgba(103, 232, 249, 0.65), 0 0 40px rgba(139, 92, 246, 0.4);
+  margin: 0 0 12px;
+  text-align: center;
+}
+
+.login-copy {
+  margin: 0 0 22px;
+  color: #cbd5e1;
+  font-size: 13.5px;
+  line-height: 1.8;
+  text-align: center;
+}
+
+.login-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  padding: 12px 14px;
+  background: rgba(20, 16, 46, 0.88);
+  border: 1px solid #2e2657;
+  border-radius: 6px;
+}
+
+.login-status span,
+.form-field label {
+  color: #a5b4fc;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.login-status strong {
+  color: #67e8f9;
+  font-size: 22px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.form-field input,
+.form-field select {
+  width: 100%;
+  background: #171331;
+  color: #e2e8f0;
+  border: 1px solid #3b3168;
+  border-radius: 6px;
+  padding: 11px 12px;
+  font-size: 16px;
+}
+
+.form-field input:focus,
+.form-field select:focus {
+  outline: 2px solid rgba(103, 232, 249, 0.45);
+  border-color: #67e8f9;
+}
+
+.instructions {
+  margin-top: 24px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid #2e2657;
+  border-radius: 10px;
+  padding: 16px 24px;
+  width: 100%;
+  max-width: 460px;
+}
+
+.instructions h2 {
+  margin-top: 0;
+  font-size: 16px;
+  color: #a5b4fc;
+}
+
+.instructions ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.9;
+}
+
+/* --- ボタン --- */
+.btn {
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 22px;
+  font-size: 16px;
+  background: #2e2657;
+  color: #e2e8f0;
+  margin: 6px;
+  transition: transform 0.1s ease, background 0.2s ease;
+}
+
+.btn:hover {
+  background: #3b3168;
+}
+
+.btn:active {
+  transform: scale(0.96);
+}
+
+.btn-primary {
+  background: #0891b2;
+  color: #fff;
+  font-weight: bold;
+  width: min(100%, 280px);
+  box-shadow: 0 0 16px rgba(103, 232, 249, 0.3);
+}
+
+.btn-primary:hover {
+  background: #06b6d4;
+}
+
+.login-panel > .btn-primary,
+.overlay-screen .btn {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.btn-small {
+  padding: 4px 12px;
+  font-size: 13px;
+}
+
+/* --- 上部HUD --- */
+.hud-top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 8px 4px;
+  font-size: 14px;
+  flex-wrap: wrap;
+  letter-spacing: 1px;
+}
+
+.hud-item {
+  flex: 0 0 auto;
+}
+
+.hud-item strong {
+  color: #67e8f9;
+  font-size: 16px;
+}
+
+.hud-top .btn-small {
+  margin-left: auto;
+}
+
+.energy-block {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 300px;
+  color: #a5b4fc;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.energy-block > span:first-child {
+  flex: 0 0 54px;
+}
+
+/* --- バー共通 --- */
+.bar {
+  position: relative;
+  height: 12px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid #3b3168;
+  overflow: hidden;
+}
+
+.energy-bar {
+  flex: 0 0 150px;
+  width: 150px;
+}
+
+.core-bar {
+  width: 100%;
+}
+
+.bar-fill {
+  height: 100%;
+  width: 100%;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #22d3ee, #67e8f9);
+  transition: width 0.15s linear;
+}
+
+.core-bar .bar-fill {
+  background: linear-gradient(90deg, #60a5fa, #93c5fd);
+}
+
+.bar-fill.low {
+  background: linear-gradient(90deg, #ef4444, #f87171);
+}
+
+.bar-text {
+  font-size: 12px;
+  color: #cbd5e1;
+}
+
+.energy-text {
+  flex: 0 0 68px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- 戦闘領域＋ミッション情報のレイアウト --- */
+.battle-layout {
+  display: flex;
+  gap: 14px;
+  width: 100%;
+  align-items: stretch;
+}
+
+.canvas-wrapper {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #141433;
+  border: 2px solid #3b3168;
+  border-radius: 8px;
+  box-shadow: 0 0 30px rgba(139, 92, 246, 0.15);
+}
+
+/* --- 右側ミッション情報欄 --- */
+.mission-panel {
+  flex: 0 0 240px;
+  background: rgba(17, 13, 38, 0.92);
+  border: 1px solid rgba(139, 92, 246, 0.35);
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-size: 13px;
+}
+
+.mission-panel h2 {
+  margin: 0 0 10px;
+  font-size: 15px;
+  color: #f0abfc;
+  letter-spacing: 2px;
+}
+
+.mission-panel h3 {
+  margin: 0 0 6px;
+  font-size: 12px;
+  color: #a5b4fc;
+  letter-spacing: 1px;
+}
+
+.operator-line {
+  margin: 0 0 14px;
+  color: #cbd5e1;
+}
+
+.operator-line strong {
+  color: #67e8f9;
+}
+
+.mission-block {
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(139, 92, 246, 0.18);
+}
+
+.mission-block:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.big-number {
+  margin: 2px 0 0;
+  font-size: 20px;
+  color: #e2e8f0;
+  font-weight: 700;
+}
+
+.big-number span {
+  color: #67e8f9;
+}
+
+.skill-status {
+  margin: 2px 0 0;
+  color: #4ade80;
+  font-weight: 700;
+}
+
+.skill-status.cooldown {
+  color: #facc15;
+}
+
+.enemy-guide ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  line-height: 1.9;
+}
+
+.dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.dot-scout { background: #fb923c; box-shadow: 0 0 6px #fb923c; }
+.dot-shielder { background: #a78bfa; box-shadow: 0 0 6px #a78bfa; }
+.dot-driller { background: #f87171; box-shadow: 0 0 6px #f87171; }
+.dot-splitter { background: #c084fc; box-shadow: 0 0 6px #c084fc; }
+
+/* --- 下部武器バー --- */
+.weapon-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 4px;
+  flex-wrap: wrap;
+}
+
+.weapon-label {
+  font-size: 13px;
+  color: #a5b4fc;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.weapon-btn {
+  cursor: pointer;
+  background: rgba(17, 13, 38, 0.92);
+  color: #cbd5e1;
+  border: 1px solid #3b3168;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 14px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.weapon-btn em {
+  font-style: normal;
+  font-size: 11px;
+  color: #94a3b8;
+  margin-left: 6px;
+}
+
+.weapon-btn.active {
+  border-color: #67e8f9;
+  color: #67e8f9;
+  box-shadow: 0 0 12px rgba(103, 232, 249, 0.35);
+}
+
+.weapon-hint {
+  margin-left: auto;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+/* --- オーバーレイ --- */
+.overlay-screen {
+  display: none;
+  position: absolute;
+  inset: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(13, 10, 31, 0.86);
+  border-radius: 8px;
+  text-align: center;
+}
+
+#pauseScreen.active,
+#waveClearScreen.active,
+#gameOverScreen.active {
+  display: flex;
+}
+
+.overlay-screen h2 {
+  font-size: 32px;
+  letter-spacing: 3px;
+  color: #f0abfc;
+  margin-bottom: 12px;
+  text-shadow: 0 0 16px rgba(240, 171, 252, 0.5);
+}
+
+.overlay-screen p {
+  font-size: 15px;
+  margin: 4px 0;
+}
+
+.overlay-screen strong {
+  color: #67e8f9;
+}
+
+.upgrade-caption {
+  margin-top: 14px !important;
+  color: #a5b4fc;
+  font-weight: 700;
+}
+
+.upgrade-choices {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.upgrade-btn {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 180px;
+  padding: 14px 12px;
+  background: rgba(17, 13, 38, 0.95);
+  border: 1px solid rgba(103, 232, 249, 0.4);
+}
+
+.upgrade-btn:hover {
+  background: rgba(46, 38, 87, 0.95);
+  border-color: #67e8f9;
+}
+
+.upgrade-btn strong {
+  color: #67e8f9;
+  font-size: 15px;
+}
+
+.upgrade-btn span {
+  font-size: 12px;
+  color: #cbd5e1;
+  line-height: 1.5;
+}
+
+/* --- レスポンシブ --- */
+@media (max-width: 900px) {
+  .battle-layout {
+    flex-direction: column;
+  }
+  .mission-panel {
+    flex: 1 1 auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-panel {
+    padding: 22px 18px;
+  }
+  .title-logo {
+    font-size: 30px;
+  }
+  .hud-top {
+    font-size: 12px;
+    gap: 10px;
+  }
+}

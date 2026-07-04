@@ -1,0 +1,628 @@
+﻿<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>星のきろく — 軌道防衛型アクションシューティング</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&family=Noto+Sans+JP:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+      /* index.html 仮案：薄い水色と白のやさしい配色に、ふわっとした動きを加える */
+      html {
+        min-height: 100%;
+        background-color: #eefaff;
+        background:
+          radial-gradient(
+            ellipse at top,
+            rgba(186, 230, 253, 0.7) 0%,
+            rgba(255, 255, 255, 0.92) 48%,
+            #eefaff 100%
+          ),
+          linear-gradient(180deg, #f8fdff 0%, #eefaff 58%, #e0f2fe 100%);
+      }
+
+      body.gentle-title {
+        min-height: 100%;
+        height: auto;
+        background-color: #eefaff;
+        background:
+          radial-gradient(
+            ellipse at top,
+            rgba(186, 230, 253, 0.7) 0%,
+            rgba(255, 255, 255, 0.92) 48%,
+            #eefaff 100%
+          ),
+          linear-gradient(180deg, #f8fdff 0%, #eefaff 58%, #e0f2fe 100%);
+        color: #164e63;
+        font-family:
+          "M PLUS Rounded 1c", "Noto Sans JP", "Segoe UI",
+          "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+      }
+
+      body.gentle-title #titleScreen {
+        position: relative;
+        max-width: 980px;
+        overflow: hidden;
+      }
+
+      /* ローディング演出：ページ表示直後に白い幕をふわっと消す */
+      body.gentle-title .loading-screen {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        display: grid;
+        place-items: center;
+        color: #0369a1;
+        letter-spacing: 0.6em;
+        background: radial-gradient(
+          circle at 50% 45%,
+          rgba(255, 255, 255, 0.98),
+          rgba(186, 230, 253, 0.94)
+        );
+        transition:
+          opacity 1s ease,
+          visibility 1s ease;
+      }
+
+      body.gentle-title .loading-screen span {
+        animation: loadingFloat 1.8s ease-in-out infinite;
+      }
+
+      body.gentle-title.is-loaded .loading-screen {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      /* 背景装飾：奥行きのある淡い光をゆっくり漂わせる */
+      body.gentle-title .ambient {
+        position: absolute;
+        z-index: 0;
+        border-radius: 50%;
+        pointer-events: none;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.72),
+          rgba(125, 211, 252, 0.28) 46%,
+          transparent 72%
+        );
+        filter: blur(1px);
+        opacity: 0.76;
+        transform: translate3d(
+          calc(var(--float-x, 0) * 1px),
+          calc(var(--float-y, 0) * 1px),
+          0
+        );
+        transition: transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+        animation: ambientDrift 10s ease-in-out infinite;
+      }
+
+      body.gentle-title .ambient--one {
+        top: 28px;
+        left: 4%;
+        width: 190px;
+        height: 190px;
+      }
+
+      body.gentle-title .ambient--two {
+        right: 5%;
+        top: 260px;
+        width: 260px;
+        height: 260px;
+        animation-duration: 13s;
+        animation-direction: reverse;
+      }
+
+      body.gentle-title .ambient--three {
+        left: 16%;
+        bottom: 180px;
+        width: 150px;
+        height: 150px;
+        opacity: 0.48;
+        animation-duration: 15s;
+      }
+
+      body.gentle-title .login-panel,
+      body.gentle-title .instructions,
+      body.gentle-title .story-panel,
+      body.gentle-title .video-section {
+        position: relative;
+        z-index: 1;
+        width: min(100%, 800px);
+        max-width: 800px;
+      }
+
+      body.gentle-title .login-panel,
+      body.gentle-title .instructions,
+      body.gentle-title .story-panel {
+        background: rgba(255, 255, 255, 0.86);
+        border-color: rgba(125, 211, 252, 0.55);
+        box-shadow:
+          0 18px 42px rgba(14, 116, 144, 0.14),
+          inset 0 0 32px rgba(186, 230, 253, 0.2);
+      }
+
+      body.gentle-title .login-kicker,
+      body.gentle-title .story-kicker,
+      body.gentle-title .instructions h2,
+      body.gentle-title .form-field label,
+      body.gentle-title .login-status span {
+        color: #0284c7;
+      }
+
+      body.gentle-title .title-logo {
+        color: #0ea5e9;
+        text-shadow: 0 0 18px rgba(125, 211, 252, 0.65);
+      }
+
+      body.gentle-title .login-copy,
+      body.gentle-title .instructions ul,
+      body.gentle-title .story-panel p {
+        color: #31566a;
+      }
+
+      body.gentle-title .story-panel h2 {
+        color: #075985;
+      }
+
+      body.gentle-title .login-status,
+      body.gentle-title .story-objectives span,
+      body.gentle-title .form-field input,
+      body.gentle-title .form-field select {
+        background: rgba(240, 249, 255, 0.9);
+        border-color: rgba(125, 211, 252, 0.65);
+        color: #164e63;
+      }
+
+      body.gentle-title .login-status strong {
+        color: #0369a1;
+      }
+
+      body.gentle-title .btn-primary {
+        background: #38bdf8;
+        color: #ffffff;
+        box-shadow: 0 12px 24px rgba(14, 165, 233, 0.22);
+      }
+
+      body.gentle-title .btn-primary:hover {
+        background: #0ea5e9;
+      }
+
+      body.gentle-title .video-section {
+        margin-top: 18px;
+        padding: 24px;
+        background: rgba(255, 255, 255, 0.88);
+        border: 1px solid rgba(125, 211, 252, 0.58);
+        border-radius: 10px;
+        box-shadow:
+          0 18px 42px rgba(14, 116, 144, 0.14),
+          inset 0 0 32px rgba(186, 230, 253, 0.18);
+      }
+
+      body.gentle-title .video-section h2 {
+        margin: 0 0 8px;
+        color: #075985;
+        font-size: 18px;
+      }
+
+      body.gentle-title .video-section p {
+        margin: 0 0 14px;
+        color: #31566a;
+        font-size: 13px;
+        line-height: 1.7;
+      }
+
+      body.gentle-title .demo-video {
+        display: block;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        background: #e0f2fe;
+        border: 1px solid rgba(125, 211, 252, 0.7);
+        border-radius: 8px;
+        box-shadow: 0 12px 30px rgba(14, 116, 144, 0.16);
+      }
+
+      /* スクロール誘導：下へ続くことをやさしく知らせる */
+      body.gentle-title .scroll-cue {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        gap: 8px;
+        justify-items: center;
+        margin-top: 16px;
+        color: #0284c7;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.32em;
+        animation: scrollCueFloat 2.4s ease-in-out infinite;
+      }
+
+      body.gentle-title .scroll-cue i {
+        display: block;
+        width: 1px;
+        height: 34px;
+        background: linear-gradient(
+          to bottom,
+          rgba(2, 132, 199, 0),
+          rgba(2, 132, 199, 0.85),
+          rgba(2, 132, 199, 0)
+        );
+      }
+
+      /* 表示前の状態：スクロールで画面に入るまで薄く下げておく */
+      body.gentle-title .fade-object {
+        opacity: 0;
+        transform: translateY(42px) scale(0.985);
+        filter: blur(8px);
+        transition:
+          opacity 1s ease,
+          transform 1s cubic-bezier(0.22, 1, 0.36, 1),
+          filter 1s ease;
+        will-change: opacity, transform;
+      }
+
+      /* 表示後の状態：ふわっと元の位置へ戻す */
+      body.gentle-title .fade-object.is-visible {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+      }
+
+      @keyframes loadingFloat {
+        0%,
+        100% {
+          transform: translateY(0);
+          opacity: 0.62;
+        }
+
+        50% {
+          transform: translateY(-10px);
+          opacity: 1;
+        }
+      }
+
+      @keyframes ambientDrift {
+        0%,
+        100% {
+          margin-top: 0;
+          margin-left: 0;
+        }
+
+        50% {
+          margin-top: -24px;
+          margin-left: 16px;
+        }
+      }
+
+      @keyframes scrollCueFloat {
+        0%,
+        100% {
+          transform: translateY(0);
+          opacity: 0.55;
+        }
+
+        50% {
+          transform: translateY(-10px);
+          opacity: 1;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        body.gentle-title .loading-screen,
+        body.gentle-title .ambient,
+        body.gentle-title .scroll-cue {
+          animation: none;
+        }
+
+        body.gentle-title .fade-object {
+          opacity: 1;
+          transform: none;
+          filter: none;
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body class="gentle-title">
+    <!-- ローディング演出：ページ表示直後にふわっと消える白い幕 -->
+    <div class="loading-screen" aria-hidden="true">
+      <span>LOADING</span>
+    </div>
+
+    <div class="app">
+      <!-- タイトル（ログイン）画面 -->
+      <section id="titleScreen" class="screen active">
+        <!-- 背景装飾：huwattoのように、奥行きのある淡い浮遊感を作る -->
+        <div class="ambient ambient--one" data-float="18"></div>
+        <div class="ambient ambient--two" data-float="10"></div>
+        <div class="ambient ambient--three" data-float="24"></div>
+
+        <div class="login-panel fade-object">
+          <p class="login-kicker">ORBITAL DEFENSE COMMAND</p>
+          <h1 class="title-logo">星のきろく</h1>
+          <p class="login-copy">
+            未知のクリスタルが軌道ステーションのコアと共鳴して、採掘ドローン群を呼び寄せている<br />
+            戦闘機を操作して、信号解析の完了までコアを守り抜け
+          </p>
+
+          <div class="login-status">
+            <span>最高スコア</span>
+            <strong id="titleHighScore">0</strong>
+          </div>
+
+          <div class="form-field">
+            <label for="operatorNameInput">オペレーター名</label>
+            <input
+              id="operatorNameInput"
+              type="text"
+              maxlength="16"
+              placeholder="例：NOVA-07"
+              autocomplete="nickname"
+            />
+          </div>
+
+          <div class="form-field">
+            <label for="difficultySelect">レベル</label>
+            <select id="difficultySelect">
+              <option value="easy">イージー</option>
+              <option value="normal">ノーマル</option>
+              <option value="hard">ハード</option>
+            </select>
+          </div>
+
+          <button id="startButton" class="btn btn-primary">スタート</button>
+        </div>
+
+        <div class="instructions fade-object">
+          <h2>操作方法</h2>
+          <ul>
+            <li>WASD／矢印キー：移動（上下左右）</li>
+            <li>Space：攻撃（長押し可）</li>
+            <li>Shift：ダッシュ（エネルギー15消費）</li>
+            <li>1／2／3：武器切替（通常弾・拡散弾・EMP）</li>
+            <li>E：重力フィールド展開（敵弾の軌道を曲げる）</li>
+            <li>Esc／P：一時停止・再開</li>
+            <li>Enter：任務開始　R：やり直し</li>
+          </ul>
+        </div>
+
+        <!-- スクロール誘導：下に続く要素があることをゆっくり知らせる -->
+        <div class="scroll-cue" aria-hidden="true">
+          <span>SCROLL</span>
+          <i></i>
+        </div>
+
+        <aside class="story-panel fade-object">
+          <p class="story-kicker">MISSION BRIEFING</p>
+          <h2>コアから出ているのは、攻撃命令ではなく帰還信号だった</h2>
+          <p>
+            西暦2187年<br />
+            地球の奥深くで採掘で発見されたクリスタルが、軌道ステーション
+            星のきろく のエネルギーコアと共鳴した
+          </p>
+          <p>
+            周辺の採掘ドローンは信号を古代装置への帰還命令として受信し、
+            軌道ステーションへの突入を始める<br />
+            防衛任務の目的は破壊ではない。クリスタル解析完了までの時間を稼ぎ、未知文明への扉を開くことだ
+          </p>
+          <div class="story-objectives">
+            <span>・軌道ステーションを守れ</span>
+            <span>・信号解析時間を稼げ</span>
+            <span>・古代のクリスタルを起動しよう</span>
+          </div>
+        </aside>
+
+        <section
+          class="video-section fade-object"
+          aria-labelledby="demoVideoTitle"
+        >
+          <h2 id="demoVideoTitle">イントロ</h2>
+          <p>クリスタルに呼び寄せられるドローンと軌道ステーションの防衛</p>
+          <video class="demo-video" controls preload="metadata" playsinline>
+            <source src="assets/move/星のきろく_フル.mp4" type="video/mp4" />
+            お使いのブラウザは動画再生に対応していません。
+          </video>
+        </section>
+      </section>
+
+      <!-- ゲーム画面 -->
+      <section id="gameScreen" class="screen">
+        <header class="hud-top">
+          <span class="hud-item"
+            >WAVE <strong id="waveDisplay">01</strong></span
+          >
+          <div class="hud-item energy-block">
+            <span>ENERGY</span>
+            <div class="bar energy-bar">
+              <div id="energyFill" class="bar-fill"></div>
+            </div>
+            <span id="energyText" class="bar-text energy-text">100 / 100</span>
+          </div>
+          <span class="hud-item"
+            >SCORE <strong id="scoreDisplay">0</strong></span
+          >
+          <span class="hud-item"
+            >HIGH <strong id="highScoreDisplay">0</strong></span
+          >
+          <span class="hud-item"
+            >残機 <strong id="livesDisplay">3</strong></span
+          >
+          <button id="pauseButton" class="btn btn-small">一時停止</button>
+        </header>
+
+        <div class="battle-layout">
+          <div class="canvas-wrapper">
+            <canvas id="gameCanvas" width="960" height="540"></canvas>
+
+            <!-- 一時停止画面 -->
+            <div id="pauseScreen" class="overlay-screen">
+              <h2>PAUSE（一時停止中）</h2>
+              <button id="resumeButton" class="btn btn-primary">再開</button>
+              <button id="pauseToTitleButton" class="btn">
+                タイトルへ戻る
+              </button>
+            </div>
+
+            <!-- ウェーブクリア（アップグレード選択）画面 -->
+            <div id="waveClearScreen" class="overlay-screen">
+              <h2>WAVE CLEAR</h2>
+              <p>コア残存ボーナス：<strong id="waveClearBonus">0</strong></p>
+              <p>現在の得点：<strong id="waveClearScore">0</strong></p>
+              <p class="upgrade-caption">強化を1つ選択して次のウェーブへ</p>
+              <div id="upgradeChoices" class="upgrade-choices"></div>
+            </div>
+
+            <!-- ゲームオーバー画面 -->
+            <div id="gameOverScreen" class="overlay-screen">
+              <h2>CORE LOST</h2>
+              <p>到達ウェーブ：<strong id="gameOverWave">1</strong></p>
+              <p>最終得点：<strong id="gameOverScore">0</strong></p>
+              <p>ハイスコア：<strong id="gameOverHighScore">0</strong></p>
+              <button id="retryButton" class="btn btn-primary">もう一度</button>
+              <button id="gameOverToTitleButton" class="btn">
+                タイトルへ戻る
+              </button>
+            </div>
+          </div>
+
+          <!-- 右側：ミッション情報欄 -->
+          <aside class="mission-panel">
+            <h2>ミッション情報</h2>
+            <p class="operator-line">
+              オペレーター：<strong id="operatorNameDisplay">guest</strong>
+            </p>
+
+            <div class="mission-block">
+              <h3>防衛コア耐久</h3>
+              <div class="bar core-bar">
+                <div id="coreHpFill" class="bar-fill"></div>
+              </div>
+              <p class="bar-text"><span id="coreHpText">100 / 100</span></p>
+            </div>
+
+            <div class="mission-block">
+              <h3>残りの敵の数</h3>
+              <p class="big-number"><span id="enemiesLeft">0</span> 機</p>
+            </div>
+
+            <div class="mission-block">
+              <h3>コンボ</h3>
+              <p class="big-number" id="comboText">—</p>
+            </div>
+
+            <div class="mission-block">
+              <h3>重力フィールド</h3>
+              <p id="gravityStatus" class="skill-status">展開可能 [E]</p>
+            </div>
+
+            <div class="mission-block enemy-guide">
+              <h3>敵の種類</h3>
+              <ul>
+                <li>
+                  <span class="dot dot-scout"></span>スカウト：曲線移動・射撃
+                </li>
+                <li>
+                  <span class="dot dot-shielder"></span>シールド機：高耐久・低速
+                </li>
+                <li>
+                  <span class="dot dot-driller"></span>ドリル機：コアへ直進
+                </li>
+                <li>
+                  <span class="dot dot-splitter"></span>分裂機：撃破時に分裂
+                </li>
+              </ul>
+            </div>
+          </aside>
+        </div>
+
+        <!-- 下部：武器バー -->
+        <footer class="weapon-bar">
+          <span class="weapon-label">武器切替</span>
+          <button class="weapon-btn active" data-weapon="normal">
+            [1] 通常弾 <em>消費2</em>
+          </button>
+          <button class="weapon-btn" data-weapon="spread">
+            [2] 拡散弾 <em>消費8</em>
+          </button>
+          <button class="weapon-btn" data-weapon="emp">
+            [3] EMP <em>消費30</em>
+          </button>
+          <span class="weapon-hint"
+            >[Shift] ダッシュ 消費15　[E] 重力フィールド</span
+          >
+        </footer>
+      </section>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/collision.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/projectile.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/enemy.js"></script>
+    <script src="js/stage.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+      // index.html専用演出：ローディング解除、ふわっと表示、背景の軽い追従をまとめて動かす
+      document.addEventListener("DOMContentLoaded", () => {
+        const targets = document.querySelectorAll(".fade-object");
+        const floatingLayers = document.querySelectorAll("[data-float]");
+
+        // ローディング幕を少し遅らせて消し、ページ全体がやわらかく立ち上がる印象にする
+        window.setTimeout(() => {
+          document.body.classList.add("is-loaded");
+        }, 450);
+
+        // 背景の光をマウス位置に少しだけ追従させ、奥行きを出す
+        window.addEventListener("pointermove", (event) => {
+          const rateX = (event.clientX / window.innerWidth - 0.5) * 2;
+          const rateY = (event.clientY / window.innerHeight - 0.5) * 2;
+
+          floatingLayers.forEach((layer) => {
+            const strength = Number(layer.dataset.float) || 12;
+            layer.style.setProperty(
+              "--float-x",
+              (-rateX * strength).toFixed(2),
+            );
+            layer.style.setProperty(
+              "--float-y",
+              (-rateY * strength).toFixed(2),
+            );
+          });
+        });
+
+        // Intersection Observerがない環境では最初から表示する
+        if (!("IntersectionObserver" in window)) {
+          targets.forEach((target) => target.classList.add("is-visible"));
+          return;
+        }
+
+        // 画面内に入ったパネルを一度だけふわっと表示する
+        const observer = new IntersectionObserver(
+          (entries, observerInstance) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              entry.target.classList.add("is-visible");
+              observerInstance.unobserve(entry.target);
+            });
+          },
+          {
+            root: null,
+            rootMargin: "0px 0px -80px 0px",
+            threshold: 0.15,
+          },
+        );
+
+        targets.forEach((target, index) => {
+          target.style.transitionDelay = `${index * 120}ms`;
+          observer.observe(target);
+        });
+      });
+    </script>
+  </body>
+</html>
