@@ -4,6 +4,12 @@
 
 星のきろくは、HTML、CSS および JavaScript の学習を目的として制作した、オリジナルの軌道防衛型アクションシューティングゲームです。ゲーム内のプログラム、キャラクター、画面構成および演出は独自に制作しています。第三者が権利を保有するゲームの画像、ロゴ、プログラムおよびキャラクターは使用していません。タイトル画面のイントロ動画には、Pixabay の Content License に基づく音源を利用しています。
 
+## 日本語 / English 表示
+
+タイトル「星のきろく」の下にある「日本語 / English」ボタンで、日本語版と英語版を切り替えられます。タイトル画面だけでなく、ゲーム内のHUD、ミッション情報、武器、状態メッセージおよび強化項目にも選択した言語が反映されます。選択した言語はブラウザに保存され、次回起動時にも使用されます。
+
+Use the “日本語 / English” buttons below the “Hoshi no Kiroku” title to switch between Japanese and English. The selected language applies to both the title screen and in-game text—including the HUD, mission information, weapons, status messages, and upgrades—and is saved for your next visit.
+
 ## ストーリー
 
 西暦2xxx年。
@@ -38,8 +44,6 @@
 ![共鳴](assets/images/2026-07-03-175205.jpg)
 
 対象ブラウザ: Google Chrome / Microsoft Edge / Firefox の最新版。
-
-タイトル「星のきろく」の下にある「日本語 / English」ボタンで、タイトル画面とゲーム画面の表示言語を切り替えられます。選択した言語はブラウザに保存され、次回起動時にも使用されます。
 
 ## 操作方法
 
