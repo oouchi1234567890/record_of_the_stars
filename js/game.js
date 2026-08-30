@@ -20,7 +20,13 @@ class Game {
 
     this.coreHp = CORE_CONFIG.maxHp;
 
-    this.input = { up: false, down: false, left: false, right: false, fire: false };
+    this.input = {
+      up: false,
+      down: false,
+      left: false,
+      right: false,
+      fire: false,
+    };
 
     // 重力フィールド（同時に1つだけ展開できる）
     this.gravityField = null; // { x, y, timer }
@@ -47,7 +53,7 @@ class Game {
     const layers = [
       { count: 60, speed: 6, size: 1, alpha: 0.35 },
       { count: 35, speed: 12, size: 1.6, alpha: 0.55 },
-      { count: 16, speed: 22, size: 2.2, alpha: 0.8 }
+      { count: 16, speed: 22, size: 2.2, alpha: 0.8 },
     ];
     const stars = [];
     for (const layer of layers) {
@@ -57,7 +63,7 @@ class Game {
           y: Math.random() * CANVAS_HEIGHT,
           speed: layer.speed,
           size: layer.size,
-          alpha: layer.alpha
+          alpha: layer.alpha,
         });
       }
     }
@@ -65,7 +71,10 @@ class Game {
   }
 
   getScaling() {
-    return DIFFICULTY_SETTINGS[this.difficulty] || DIFFICULTY_SETTINGS[Difficulty.NORMAL];
+    return (
+      DIFFICULTY_SETTINGS[this.difficulty] ||
+      DIFFICULTY_SETTINGS[Difficulty.NORMAL]
+    );
   }
 
   setDifficulty(difficulty) {
@@ -192,14 +201,14 @@ class Game {
         origin.x,
         origin.y,
         angle - spreadAngle,
-        speed
+        speed,
       );
       this.projectiles.firePlayerShot(origin.x, origin.y, angle, speed);
       this.projectiles.firePlayerShot(
         origin.x,
         origin.y,
         angle + spreadAngle,
-        speed
+        speed,
       );
       AudioFX.spread();
     } else {
@@ -240,7 +249,7 @@ class Game {
     this.gravityField = {
       x: this.player.x,
       y: this.player.y,
-      timer: GRAVITY_FIELD_CONFIG.duration
+      timer: GRAVITY_FIELD_CONFIG.duration,
     };
     this.gravityCooldown = this.gravityCooldownMax;
     AudioFX.gravity();
@@ -277,7 +286,13 @@ class Game {
     if (enemy.type === "splitter") {
       for (const offset of [-16, 16]) {
         this.enemyManager.addEnemy(
-          new Enemy("mini", enemy.x + offset, enemy.y + Math.abs(offset) * 0.4, this.wave, this.getScaling())
+          new Enemy(
+            "mini",
+            enemy.x + offset,
+            enemy.y + Math.abs(offset) * 0.4,
+            this.wave,
+            this.getScaling(),
+          ),
         );
       }
     }
@@ -294,7 +309,13 @@ class Game {
   }
 
   spawnExplosion(x, y, color) {
-    this.explosions.push({ x, y, timer: 0.3, max: 0.3, color: color || "#fbbf24" });
+    this.explosions.push({
+      x,
+      y,
+      timer: 0.3,
+      max: 0.3,
+      color: color || "#fbbf24",
+    });
   }
 
   gameOver() {
@@ -400,12 +421,40 @@ class Game {
       }
     }
 
+    // 自機の弾 × 敵の弾。命中した2発を相殺する
+    for (const playerShot of this.projectiles.playerShots) {
+      if (playerShot.dead) continue;
+      for (const enemyShot of this.projectiles.enemyShots) {
+        if (enemyShot.dead) continue;
+        if (circlesCollide(playerShot, enemyShot)) {
+          playerShot.dead = true;
+          enemyShot.dead = true;
+          this.spawnExplosion(enemyShot.x, enemyShot.y, "#dbeafe");
+          AudioFX.shotClash();
+          break;
+        }
+      }
+    }
+
     // 敵の弾 × 自機
     for (const shot of this.projectiles.enemyShots) {
       if (shot.dead) continue;
       if (circlesCollide(shot, this.player)) {
         shot.dead = true;
         this.hitPlayer();
+        continue;
+      }
+
+      // 敵の弾 × 防衛コア
+      if (circlesCollide(shot, CORE_CONFIG)) {
+        shot.dead = true;
+        this.coreHp = Math.max(0, this.coreHp - shot.damage);
+        this.spawnExplosion(shot.x, shot.y, "#bae6fd");
+        AudioFX.enemyShotHitCore();
+        if (this.coreHp <= 0) {
+          this.gameOver();
+          break;
+        }
       }
     }
 
@@ -424,8 +473,12 @@ class Game {
       }
     }
 
-    this.projectiles.playerShots = this.projectiles.playerShots.filter((s) => !s.dead);
-    this.projectiles.enemyShots = this.projectiles.enemyShots.filter((s) => !s.dead);
+    this.projectiles.playerShots = this.projectiles.playerShots.filter(
+      (s) => !s.dead,
+    );
+    this.projectiles.enemyShots = this.projectiles.enemyShots.filter(
+      (s) => !s.dead,
+    );
   }
 
   hitPlayer() {
@@ -505,7 +558,8 @@ class Game {
     // 耐久リング
     ctx.shadowBlur = 0;
     const ratio = this.coreHp / CORE_CONFIG.maxHp;
-    ctx.strokeStyle = ratio > 0.5 ? "#4ade80" : ratio > 0.25 ? "#facc15" : "#f87171";
+    ctx.strokeStyle =
+      ratio > 0.5 ? "#4ade80" : ratio > 0.25 ? "#facc15" : "#f87171";
     ctx.lineWidth = 3;
     ctx.beginPath();
     ctx.arc(x, y, radius + 9, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * ratio);
@@ -520,7 +574,14 @@ class Game {
     const fade = Math.min(1, f.timer / 0.6);
     ctx.save();
     ctx.globalAlpha = 0.25 * fade;
-    const grad = ctx.createRadialGradient(f.x, f.y, 8, f.x, f.y, GRAVITY_FIELD_CONFIG.radius);
+    const grad = ctx.createRadialGradient(
+      f.x,
+      f.y,
+      8,
+      f.x,
+      f.y,
+      GRAVITY_FIELD_CONFIG.radius,
+    );
     grad.addColorStop(0, "#c084fc");
     grad.addColorStop(1, "rgba(192, 132, 252, 0)");
     ctx.fillStyle = grad;
@@ -557,7 +618,12 @@ class Game {
       ctx.fillStyle = ex.color;
       for (let i = 0; i < 6; i++) {
         const a = (Math.PI * 2 * i) / 6 + progress * 2;
-        ctx.fillRect(ex.x + Math.cos(a) * r * 0.8 - 1.5, ex.y + Math.sin(a) * r * 0.8 - 1.5, 3, 3);
+        ctx.fillRect(
+          ex.x + Math.cos(a) * r * 0.8 - 1.5,
+          ex.y + Math.sin(a) * r * 0.8 - 1.5,
+          3,
+          3,
+        );
       }
       ctx.restore();
     }
@@ -596,10 +662,23 @@ function saveDifficulty(value) {
 }
 
 function loadVolume() {
-  const v = Number(localStorage.getItem(VOLUME_KEY));
-  return Number.isFinite(v) ? v : 0.5;
+  const saved = localStorage.getItem(VOLUME_KEY);
+  if (saved === null) return 0;
+  const v = Number(saved);
+  return Number.isFinite(v) ? clamp(v, 0, 1) : 0;
 }
 
 function saveVolume(value) {
   localStorage.setItem(VOLUME_KEY, String(value));
+}
+
+function loadBgmVolume() {
+  const saved = localStorage.getItem(BGM_VOLUME_KEY);
+  if (saved === null) return 0;
+  const v = Number(saved);
+  return Number.isFinite(v) ? clamp(v, 0, 1) : 0;
+}
+
+function saveBgmVolume(value) {
+  localStorage.setItem(BGM_VOLUME_KEY, String(value));
 }

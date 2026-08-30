@@ -17,11 +17,13 @@ class Enemy {
     // 難易度・ウェーブによる補正
     const waveSpeedMult = Math.min(
       1 + (wave - 1) * WAVE_SCALING.speedPerWave,
-      WAVE_SCALING.speedCap
+      WAVE_SCALING.speedCap,
     );
     this.speed = cfg.speed * scaling.speedScale * waveSpeedMult;
     const hpBonus = Math.floor((wave - 1) / WAVE_SCALING.hpBonusEveryWaves);
-    this.hp = Math.max(1, Math.round(cfg.hp * scaling.hpScale)) + (cfg.hp > 1 ? hpBonus : 0);
+    this.hp =
+      Math.max(1, Math.round(cfg.hp * scaling.hpScale)) +
+      (cfg.hp > 1 ? hpBonus : 0);
     this.maxHp = this.hp;
 
     this.stunTimer = 0;
@@ -30,10 +32,12 @@ class Enemy {
 
     // 射撃（スカウト・分裂機のみ）
     this.canShoot = type === "scout" || type === "splitter";
-    this.fireTimer = this.randomFireInterval(scaling) * (0.5 + Math.random() * 0.8);
+    this.fireTimer =
+      this.randomFireInterval(scaling) * (0.5 + Math.random() * 0.8);
     this.fireIntervalScale = scaling.fireIntervalScale;
     this.bulletSpeed =
-      PROJECTILE_CONFIG.enemy.speed * (1 + (wave - 1) * WAVE_SCALING.bulletSpeedPerWave);
+      PROJECTILE_CONFIG.enemy.speed *
+      (1 + (wave - 1) * WAVE_SCALING.bulletSpeedPerWave);
   }
 
   randomFireInterval(scaling) {
@@ -100,14 +104,17 @@ class Enemy {
     if (this.canShoot && this.isOnScreen()) {
       this.fireTimer -= deltaTime;
       if (this.fireTimer <= 0) {
-        this.fireTimer = this.randomFireInterval({ fireIntervalScale: this.fireIntervalScale });
-        game.projectiles.fireEnemyShot(
+        this.fireTimer = this.randomFireInterval({
+          fireIntervalScale: this.fireIntervalScale,
+        });
+        const fired = game.projectiles.fireEnemyShot(
           this.x,
           this.y,
           game.player.x,
           game.player.y,
-          this.bulletSpeed
+          this.bulletSpeed,
         );
+        if (fired) AudioFX.enemyShoot();
       }
     }
 
@@ -187,7 +194,13 @@ class Enemy {
     ctx.strokeStyle = "rgba(196, 181, 253, 0.75)";
     ctx.lineWidth = 3;
     ctx.beginPath();
-    ctx.arc(0, 0, this.radius, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * ratio);
+    ctx.arc(
+      0,
+      0,
+      this.radius,
+      -Math.PI / 2,
+      -Math.PI / 2 + Math.PI * 2 * ratio,
+    );
     ctx.stroke();
   }
 
@@ -221,8 +234,14 @@ class Enemy {
     for (let i = 0; i < 3; i++) {
       const a = this.spin + ((Math.PI * 2) / 3) * i;
       ctx.beginPath();
-      ctx.moveTo(Math.cos(a) * this.radius * 0.6, Math.sin(a) * this.radius * 0.6);
-      ctx.lineTo(Math.cos(a) * this.radius * 1.25, Math.sin(a) * this.radius * 1.25);
+      ctx.moveTo(
+        Math.cos(a) * this.radius * 0.6,
+        Math.sin(a) * this.radius * 0.6,
+      );
+      ctx.lineTo(
+        Math.cos(a) * this.radius * 1.25,
+        Math.sin(a) * this.radius * 1.25,
+      );
       ctx.stroke();
     }
     ctx.shadowBlur = 0;
@@ -267,7 +286,9 @@ class EnemyManager {
       this.spawnEvents[this.spawnIndex].delay <= this.elapsed
     ) {
       const ev = this.spawnEvents[this.spawnIndex];
-      this.enemies.push(new Enemy(ev.type, ev.x, ev.y, this.wave, this.scaling));
+      this.enemies.push(
+        new Enemy(ev.type, ev.x, ev.y, this.wave, this.scaling),
+      );
       this.spawnIndex += 1;
     }
 

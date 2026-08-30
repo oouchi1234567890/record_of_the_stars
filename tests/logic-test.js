@@ -63,7 +63,7 @@ for (const file of [
 }
 
 const G = vm.runInContext(
-  "({ I18n, Game, Enemy, GameState, Weapon, CORE_CONFIG, ENEMY_CONFIG, EMP_CONFIG, PLAYER_CONFIG, UPGRADE_POOL, CORE_HP_BONUS_RATE, buildWave })",
+  "({ I18n, Game, Enemy, GameState, Weapon, CORE_CONFIG, ENEMY_CONFIG, EMP_CONFIG, PLAYER_CONFIG, UPGRADE_POOL, CORE_HP_BONUS_RATE, buildWave, loadVolume, saveVolume, loadBgmVolume, saveBgmVolume })",
   sandbox
 );
 
@@ -109,6 +109,26 @@ test("unsupported UI language is rejected", () => {
   G.I18n.setLanguage("ja");
   assert(!G.I18n.setLanguage("fr"), "unsupported language rejected");
   assert(G.I18n.language === "ja", "language is unchanged");
+});
+
+test("battle volume defaults, saves, and stays within range", () => {
+  storage.delete("hoshiNoKirokuVolumeV3");
+  assertClose(G.loadVolume(), 0, 0.001, "default volume is muted");
+  G.saveVolume(0.73);
+  assertClose(G.loadVolume(), 0.73, 0.001, "saved volume");
+  storage.set("hoshiNoKirokuVolumeV3", "2");
+  assertClose(G.loadVolume(), 1, 0.001, "volume upper bound");
+  storage.set("hoshiNoKirokuVolumeV3", "invalid");
+  assertClose(G.loadVolume(), 0, 0.001, "invalid volume falls back to muted");
+});
+
+test("BGM volume defaults to muted and persists independently", () => {
+  storage.delete("hoshiNoKirokuBgmVolume");
+  assertClose(G.loadBgmVolume(), 0, 0.001, "default BGM volume is muted");
+  G.saveBgmVolume(0.42);
+  assertClose(G.loadBgmVolume(), 0.42, 0.001, "saved BGM volume");
+  storage.set("hoshiNoKirokuBgmVolume", "2");
+  assertClose(G.loadBgmVolume(), 1, 0.001, "BGM volume upper bound");
 });
 
 function newGame() {
@@ -244,6 +264,36 @@ test("gravity field changes enemy shot trajectory", () => {
   shot.update(0.016, [game.gravityField]);
   assert(shot.vx !== vxBefore, "horizontal velocity changed");
   assert(shot.vx < vxBefore, "shot was pushed outward");
+});
+
+test("colliding player and enemy shots cancel each other", () => {
+  const game = newGame();
+  game.enemyManager.spawnEvents = [];
+  game.enemyManager.enemies = [];
+  game.projectiles.firePlayerShot(300, 200, 0, 0);
+  game.projectiles.fireEnemyShot(300, 200, 300, 200, 0);
+
+  game.handleCollisions();
+
+  assert(game.projectiles.playerShots.length === 0, "player shot was removed");
+  assert(game.projectiles.enemyShots.length === 0, "enemy shot was removed");
+});
+
+test("enemy shot hitting the core reduces core HP", () => {
+  const game = newGame();
+  const before = game.coreHp;
+  game.projectiles.fireEnemyShot(
+    G.CORE_CONFIG.x,
+    G.CORE_CONFIG.y,
+    G.CORE_CONFIG.x,
+    G.CORE_CONFIG.y,
+    0
+  );
+
+  game.handleCollisions();
+
+  assert(before - game.coreHp === 1, "enemy shot dealt its configured damage");
+  assert(game.projectiles.enemyShots.length === 0, "enemy shot was removed");
 });
 
 test("gravity field enters cooldown after deployment", () => {

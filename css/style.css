@@ -303,8 +303,43 @@ html, body {
   font-size: 16px;
 }
 
-.hud-top .btn-small {
+.volume-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 0;
+  color: #a5b4fc;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.bgm-control {
   margin-left: auto;
+}
+
+.volume-control input[type="range"] {
+  width: 110px;
+  cursor: pointer;
+  accent-color: #67e8f9;
+}
+
+.volume-control input[type="range"]:focus-visible {
+  outline: 2px solid #f0abfc;
+  outline-offset: 3px;
+  border-radius: 999px;
+}
+
+.volume-control output {
+  width: 38px;
+  color: #67e8f9;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.hud-top .btn-small {
+  margin-left: 0;
 }
 
 .energy-block {
@@ -620,5 +655,13 @@ canvas {
   .hud-top {
     font-size: 12px;
     gap: 10px;
+  }
+  .volume-control {
+    width: 100%;
+    margin-left: 0;
+  }
+  .volume-control input[type="range"] {
+    flex: 1 1 auto;
+    width: auto;
   }
 }

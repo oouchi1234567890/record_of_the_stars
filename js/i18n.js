@@ -42,9 +42,12 @@ const I18n = (function () {
       "story.objective2": "・信号解析時間を稼げ",
       "story.objective3": "・古代のクリスタルを起動しよう",
       "intro.title": "イントロ",
-      "intro.copy": "クリスタルに呼び寄せられるドローンと軌道ステーションの防衛",
+      "intro.copy":
+        "クリスタルに呼び寄せられるドローンと軌道ステーションの防衛",
       "intro.unsupported": "お使いのブラウザは動画再生に対応していません。",
       "hud.lives": "残機",
+      "hud.bgm": "BGM",
+      "hud.volume": "効果音",
       "pause.heading": "PAUSE（一時停止中）",
       "waveClear.coreBonus": "コア残存ボーナス：",
       "waveClear.currentScore": "現在の得点：",
@@ -84,9 +87,10 @@ const I18n = (function () {
       "upgrades.dashCost.name": "推進系最適化",
       "upgrades.dashCost.desc": "ダッシュ消費 -5（最低5）",
       "upgrades.gravityCooldown.name": "フィールド再充填",
-      "upgrades.gravityCooldown.desc": "重力フィールド再使用時間 -2秒（最低4秒）",
+      "upgrades.gravityCooldown.desc":
+        "重力フィールド再使用時間 -2秒（最低4秒）",
       "upgrades.fireRate.name": "連射制御強化",
-      "upgrades.fireRate.desc": "発射間隔 -15%"
+      "upgrades.fireRate.desc": "発射間隔 -15%",
     },
     en: {
       "page.title": "Hoshi no Kiroku — Orbital Defense Action Shooter",
@@ -109,11 +113,13 @@ const I18n = (function () {
       "instructions.move": "WASD / Arrow Keys: Move in all directions",
       "instructions.fire": "Space: Fire (hold to repeat)",
       "instructions.dash": "Shift: Dash (costs 15 energy)",
-      "instructions.weapon": "1 / 2 / 3: Switch weapons (Normal / Spread / EMP)",
+      "instructions.weapon":
+        "1 / 2 / 3: Switch weapons (Normal / Spread / EMP)",
       "instructions.gravity": "E: Deploy gravity field (deflects enemy fire)",
       "instructions.pause": "Esc / P: Pause or resume",
       "instructions.startRetry": "Enter: Start mission　R: Retry",
-      "story.heading": "The core was sending not an attack order, but a return signal",
+      "story.heading":
+        "The core was sending not an attack order, but a return signal",
       "story.body1":
         "Year 2187<br />A crystal discovered deep beneath Earth resonated with the energy core of the orbital station Hoshi no Kiroku.",
       "story.body2":
@@ -122,9 +128,12 @@ const I18n = (function () {
       "story.objective2": "BUY TIME FOR SIGNAL ANALYSIS",
       "story.objective3": "ACTIVATE THE ANCIENT CRYSTAL",
       "intro.title": "INTRO",
-      "intro.copy": "Defend the orbital station from drones drawn in by the crystal",
+      "intro.copy":
+        "Defend the orbital station from drones drawn in by the crystal",
       "intro.unsupported": "Your browser does not support video playback.",
       "hud.lives": "LIVES",
+      "hud.bgm": "BGM",
+      "hud.volume": "SFX",
       "pause.heading": "PAUSED",
       "waveClear.coreBonus": "CORE HP BONUS: ",
       "waveClear.currentScore": "CURRENT SCORE: ",
@@ -164,10 +173,11 @@ const I18n = (function () {
       "upgrades.dashCost.name": "THRUSTER OPTIMIZATION",
       "upgrades.dashCost.desc": "Dash cost -5 (minimum 5)",
       "upgrades.gravityCooldown.name": "FIELD RECHARGE",
-      "upgrades.gravityCooldown.desc": "Gravity field cooldown -2s (minimum 4s)",
+      "upgrades.gravityCooldown.desc":
+        "Gravity field cooldown -2s (minimum 4s)",
       "upgrades.fireRate.name": "FIRE CONTROL BOOST",
-      "upgrades.fireRate.desc": "Fire interval -15%"
-    }
+      "upgrades.fireRate.desc": "Fire interval -15%",
+    },
   };
 
   function loadLanguage() {
@@ -185,12 +195,13 @@ const I18n = (function () {
   function interpolate(text, params) {
     if (!params) return text;
     return text.replace(/\{(\w+)\}/g, (match, key) =>
-      Object.prototype.hasOwnProperty.call(params, key) ? params[key] : match
+      Object.prototype.hasOwnProperty.call(params, key) ? params[key] : match,
     );
   }
 
   function t(key, params) {
-    const selected = translations[currentLanguage] || translations[DEFAULT_LANGUAGE];
+    const selected =
+      translations[currentLanguage] || translations[DEFAULT_LANGUAGE];
     const text = selected[key] ?? translations[DEFAULT_LANGUAGE][key] ?? key;
     return interpolate(text, params);
   }
@@ -229,7 +240,7 @@ const I18n = (function () {
     applyDocument();
     if (changed && typeof window !== "undefined") {
       window.dispatchEvent(
-        new CustomEvent("hoshiLanguageChange", { detail: { language } })
+        new CustomEvent("hoshiLanguageChange", { detail: { language } }),
       );
     }
     return true;
@@ -240,7 +251,9 @@ const I18n = (function () {
     document.querySelectorAll("[data-language]").forEach((button) => {
       if (button.dataset.languageReady === "true") return;
       button.dataset.languageReady = "true";
-      button.addEventListener("click", () => setLanguage(button.dataset.language));
+      button.addEventListener("click", () =>
+        setLanguage(button.dataset.language),
+      );
     });
     applyDocument();
   }
@@ -251,6 +264,6 @@ const I18n = (function () {
     },
     initialize,
     setLanguage,
-    t
+    t,
   };
 })();

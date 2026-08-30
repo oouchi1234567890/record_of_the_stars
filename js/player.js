@@ -57,7 +57,7 @@ class Player {
   getNosePosition() {
     return {
       x: this.x + this.facing.x * this.radius,
-      y: this.y + this.facing.y * this.radius
+      y: this.y + this.facing.y * this.radius,
     };
   }
 
@@ -66,7 +66,10 @@ class Player {
     if (!this.spendEnergy(this.dashCost)) return false;
     this.dashTimer = DASH_CONFIG.duration;
     this.dashDir = { x: this.facing.x, y: this.facing.y };
-    this.invincibleTimer = Math.max(this.invincibleTimer, DASH_CONFIG.invincibleDuration);
+    this.invincibleTimer = Math.max(
+      this.invincibleTimer,
+      DASH_CONFIG.invincibleDuration,
+    );
     return true;
   }
 
@@ -118,7 +121,10 @@ class Player {
     }
 
     // エネルギー自動回復
-    this.energy = Math.min(this.energyMax, this.energy + this.energyRegen * deltaTime);
+    this.energy = Math.min(
+      this.energyMax,
+      this.energy + this.energyRegen * deltaTime,
+    );
 
     // 無敵時間と点滅
     if (this.invincibleTimer > 0) {
