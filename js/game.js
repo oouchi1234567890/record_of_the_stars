@@ -170,11 +170,14 @@ class Game {
       return;
     }
 
+    // 発射位置は機体中心ではなく、三角形の先端
+    const origin = p.getNosePosition();
+
     // 照準：最も近い画面内の敵。いなければ機体の向き
     const target = this.findNearestEnemy(p.x, p.y);
     let angle;
     if (target) {
-      angle = Math.atan2(target.y - p.y, target.x - p.x);
+      angle = Math.atan2(target.y - origin.y, target.x - origin.x);
     } else {
       angle = Math.atan2(p.facing.y, p.facing.x);
     }
@@ -185,12 +188,22 @@ class Game {
 
     if (p.weapon === Weapon.SPREAD) {
       const spreadAngle = PROJECTILE_CONFIG.spreadAngle;
-      this.projectiles.firePlayerShot(p.x, p.y, angle - spreadAngle, speed);
-      this.projectiles.firePlayerShot(p.x, p.y, angle, speed);
-      this.projectiles.firePlayerShot(p.x, p.y, angle + spreadAngle, speed);
+      this.projectiles.firePlayerShot(
+        origin.x,
+        origin.y,
+        angle - spreadAngle,
+        speed
+      );
+      this.projectiles.firePlayerShot(origin.x, origin.y, angle, speed);
+      this.projectiles.firePlayerShot(
+        origin.x,
+        origin.y,
+        angle + spreadAngle,
+        speed
+      );
       AudioFX.spread();
     } else {
-      this.projectiles.firePlayerShot(p.x, p.y, angle, speed);
+      this.projectiles.firePlayerShot(origin.x, origin.y, angle, speed);
       AudioFX.shoot();
     }
   }

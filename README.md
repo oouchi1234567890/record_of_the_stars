@@ -39,6 +39,8 @@
 
 対象ブラウザ: Google Chrome / Microsoft Edge / Firefox の最新版。
 
+タイトル「星のきろく」の下にある「日本語 / English」ボタンで、タイトル画面とゲーム画面の表示言語を切り替えられます。選択した言語はブラウザに保存され、次回起動時にも使用されます。
+
 ## 操作方法
 
 | 操作内容           | キー                               | エネルギー消費            |
@@ -89,6 +91,7 @@ record_of_the_stars/
 ├─ css/
 │  └─ style.css
 ├─ js/
+│  ├─ i18n.js
 │  ├─ main.js
 │  ├─ game.js
 │  ├─ player.js

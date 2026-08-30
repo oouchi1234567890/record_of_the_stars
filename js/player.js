@@ -53,6 +53,14 @@ class Player {
     return now - this.lastFireTime >= this.fireInterval;
   }
 
+  // 機体の向いている方向にある三角形の先端座標
+  getNosePosition() {
+    return {
+      x: this.x + this.facing.x * this.radius,
+      y: this.y + this.facing.y * this.radius
+    };
+  }
+
   startDash() {
     if (this.isDashing) return false;
     if (!this.spendEnergy(this.dashCost)) return false;

@@ -118,6 +118,45 @@ html, body {
   text-align: center;
 }
 
+.language-switcher {
+  display: flex;
+  width: max-content;
+  margin: 0 auto 18px;
+  padding: 4px;
+  gap: 4px;
+  border: 1px solid rgba(103, 232, 249, 0.4);
+  border-radius: 999px;
+  background: rgba(17, 13, 38, 0.72);
+}
+
+.language-switcher button {
+  padding: 7px 14px;
+  border: 0;
+  border-radius: 999px;
+  color: #a5b4fc;
+  background: transparent;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.language-switcher button:hover {
+  color: #67e8f9;
+}
+
+.language-switcher button.active {
+  color: #111827;
+  background: #67e8f9;
+  box-shadow: 0 0 12px rgba(103, 232, 249, 0.35);
+}
+
+.language-switcher button:focus-visible {
+  outline: 2px solid #f0abfc;
+  outline-offset: 2px;
+}
+
 .login-copy {
   margin: 0 0 22px;
   color: #cbd5e1;

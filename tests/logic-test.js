@@ -48,6 +48,7 @@ vm.createContext(sandbox);
 
 const jsDir = path.join(__dirname, "..", "js");
 for (const file of [
+  "i18n.js",
   "config.js",
   "collision.js",
   "audio.js",
@@ -62,7 +63,7 @@ for (const file of [
 }
 
 const G = vm.runInContext(
-  "({ Game, Enemy, GameState, Weapon, CORE_CONFIG, ENEMY_CONFIG, EMP_CONFIG, PLAYER_CONFIG, UPGRADE_POOL, CORE_HP_BONUS_RATE, buildWave })",
+  "({ I18n, Game, Enemy, GameState, Weapon, CORE_CONFIG, ENEMY_CONFIG, EMP_CONFIG, PLAYER_CONFIG, UPGRADE_POOL, CORE_HP_BONUS_RATE, buildWave })",
   sandbox
 );
 
@@ -90,6 +91,25 @@ function assertClose(actual, expected, epsilon = 0.001, message = "") {
     throw new Error(`${message} expected=${expected} actual=${actual}`);
   }
 }
+
+test("UI language defaults to Japanese and switches to English", () => {
+  storage.clear();
+  G.I18n.setLanguage("ja");
+  assert(G.I18n.t("title.name") === "星のきろく", "Japanese title");
+  assert(G.I18n.setLanguage("en"), "English is supported");
+  assert(G.I18n.t("title.name") === "Hoshi no Kiroku", "English title");
+  assert(
+    G.I18n.t("status.combo", { count: 4, multiplier: "1.3" }) === "4 HITS ×1.3",
+    "dynamic text is translated"
+  );
+  G.I18n.setLanguage("ja");
+});
+
+test("unsupported UI language is rejected", () => {
+  G.I18n.setLanguage("ja");
+  assert(!G.I18n.setLanguage("fr"), "unsupported language rejected");
+  assert(G.I18n.language === "ja", "language is unchanged");
+});
 
 function newGame() {
   const game = new G.Game(fakeCanvas);
@@ -121,6 +141,19 @@ test("normal shot consumes 2 energy and creates one shot", () => {
   assert(game.projectiles.playerShots.length === 1, "shot was created");
 });
 
+test("player shots start at the triangular ship nose", () => {
+  const game = newGame();
+  game.player.facing = { x: 0.6, y: -0.8 };
+  game.enemyManager.enemies = [];
+
+  const expected = game.player.getNosePosition();
+  game.tryFire(100000);
+
+  const shot = game.projectiles.playerShots[0];
+  assertClose(shot.x, expected.x, 0.001, "shot x starts at nose");
+  assertClose(shot.y, expected.y, 0.001, "shot y starts at nose");
+});
+
 test("spread shot consumes 8 energy and creates three shots", () => {
   const game = newGame();
   game.setWeapon(G.Weapon.SPREAD);
@@ -128,6 +161,11 @@ test("spread shot consumes 8 energy and creates three shots", () => {
   game.tryFire(100000);
   assertClose(before - game.player.energy, 8);
   assert(game.projectiles.playerShots.length === 3, "spread shots were created");
+  const expected = game.player.getNosePosition();
+  for (const shot of game.projectiles.playerShots) {
+    assertClose(shot.x, expected.x, 0.001, "spread shot x starts at nose");
+    assertClose(shot.y, expected.y, 0.001, "spread shot y starts at nose");
+  }
 });
 
 test("EMP consumes 30 energy", () => {

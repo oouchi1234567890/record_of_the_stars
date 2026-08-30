@@ -41,6 +41,13 @@
   const operatorNameInput = document.getElementById("operatorNameInput");
   const operatorNameDisplay = document.getElementById("operatorNameDisplay");
 
+  window.addEventListener("hoshiLanguageChange", () => {
+    if (game.state === GameState.WAVE_CLEAR) renderUpgradeChoices();
+    syncHud();
+  });
+
+  I18n.initialize();
+
   function showScreen(state) {
     for (const key in screens) screens[key].classList.remove("active");
     switch (state) {
@@ -81,8 +88,11 @@
     game.upgradeChoices.forEach((choice, index) => {
       const button = document.createElement("button");
       button.className = "btn upgrade-btn";
-      button.innerHTML =
-        "<strong>" + choice.name + "</strong><span>" + choice.desc + "</span>";
+      const name = document.createElement("strong");
+      const description = document.createElement("span");
+      name.textContent = I18n.t(`upgrades.${choice.id}.name`);
+      description.textContent = I18n.t(`upgrades.${choice.id}.desc`);
+      button.append(name, description);
       button.addEventListener("click", () => {
         AudioFX.unlock();
         game.chooseUpgrade(index);
@@ -112,16 +122,21 @@
     enemiesLeftEl.textContent = game.enemyManager.remainingCount;
 
     if (game.combo >= 2) {
-      comboEl.textContent = game.combo + "連続 ×" + game.getComboMultiplier().toFixed(1);
+      comboEl.textContent = I18n.t("status.combo", {
+        count: game.combo,
+        multiplier: game.getComboMultiplier().toFixed(1)
+      });
     } else {
       comboEl.textContent = "—";
     }
 
     if (game.gravityCooldown > 0) {
-      gravityStatusEl.textContent = "再充填中 " + game.gravityCooldown.toFixed(1) + "秒";
+      gravityStatusEl.textContent = I18n.t("status.gravityCooldown", {
+        seconds: game.gravityCooldown.toFixed(1)
+      });
       gravityStatusEl.classList.add("cooldown");
     } else {
-      gravityStatusEl.textContent = "展開可能 [E]";
+      gravityStatusEl.textContent = I18n.t("status.gravityReady");
       gravityStatusEl.classList.remove("cooldown");
     }
 

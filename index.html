@@ -163,6 +163,21 @@
         text-shadow: 0 0 18px rgba(125, 211, 252, 0.65);
       }
 
+      body.gentle-title .language-switcher {
+        background: rgba(240, 249, 255, 0.9);
+        border-color: rgba(125, 211, 252, 0.65);
+      }
+
+      body.gentle-title .language-switcher button {
+        color: #0369a1;
+      }
+
+      body.gentle-title .language-switcher button.active {
+        color: #ffffff;
+        background: #0ea5e9;
+        box-shadow: 0 5px 12px rgba(14, 165, 233, 0.24);
+      }
+
       body.gentle-title .login-copy,
       body.gentle-title .instructions ul,
       body.gentle-title .story-panel p {
@@ -347,50 +362,81 @@
 
         <div class="login-panel fade-object">
           <p class="login-kicker">ORBITAL DEFENSE COMMAND</p>
-          <h1 class="title-logo">星のきろく</h1>
-          <p class="login-copy">
+          <h1 class="title-logo" data-i18n="title.name">星のきろく</h1>
+          <div
+            class="language-switcher"
+            role="group"
+            aria-label="表示言語 / Language"
+          >
+            <button type="button" data-language="ja" aria-pressed="true">
+              日本語
+            </button>
+            <button type="button" data-language="en" aria-pressed="false">
+              English
+            </button>
+          </div>
+          <p class="login-copy" data-i18n-html="title.copy">
             未知のクリスタルが軌道ステーションのコアと共鳴して、採掘ドローン群を呼び寄せている<br />
             戦闘機を操作して、信号解析の完了までコアを守り抜け
           </p>
 
           <div class="login-status">
-            <span>最高スコア</span>
+            <span data-i18n="title.highScore">最高スコア</span>
             <strong id="titleHighScore">0</strong>
           </div>
 
           <div class="form-field">
-            <label for="operatorNameInput">オペレーター名</label>
+            <label for="operatorNameInput" data-i18n="title.operatorName"
+              >オペレーター名</label
+            >
             <input
               id="operatorNameInput"
               type="text"
               maxlength="16"
               placeholder="例：NOVA-07"
+              data-i18n-placeholder="title.operatorPlaceholder"
               autocomplete="nickname"
             />
           </div>
 
           <div class="form-field">
-            <label for="difficultySelect">レベル</label>
+            <label for="difficultySelect" data-i18n="title.difficulty"
+              >レベル</label
+            >
             <select id="difficultySelect">
-              <option value="easy">イージー</option>
-              <option value="normal">ノーマル</option>
-              <option value="hard">ハード</option>
+              <option value="easy" data-i18n="difficulty.easy">イージー</option>
+              <option value="normal" data-i18n="difficulty.normal">
+                ノーマル
+              </option>
+              <option value="hard" data-i18n="difficulty.hard">ハード</option>
             </select>
           </div>
 
-          <button id="startButton" class="btn btn-primary">スタート</button>
+          <button
+            id="startButton"
+            class="btn btn-primary"
+            data-i18n="action.start"
+          >
+            スタート
+          </button>
         </div>
 
         <div class="instructions fade-object">
-          <h2>操作方法</h2>
+          <h2 data-i18n="instructions.title">操作方法</h2>
           <ul>
-            <li>WASD／矢印キー：移動（上下左右）</li>
-            <li>Space：攻撃（長押し可）</li>
-            <li>Shift：ダッシュ（エネルギー15消費）</li>
-            <li>1／2／3：武器切替（通常弾・拡散弾・EMP）</li>
-            <li>E：重力フィールド展開（敵弾の軌道を曲げる）</li>
-            <li>Esc／P：一時停止・再開</li>
-            <li>Enter：任務開始　R：やり直し</li>
+            <li data-i18n="instructions.move">WASD／矢印キー：移動（上下左右）</li>
+            <li data-i18n="instructions.fire">Space：攻撃（長押し可）</li>
+            <li data-i18n="instructions.dash">Shift：ダッシュ（エネルギー15消費）</li>
+            <li data-i18n="instructions.weapon">
+              1／2／3：武器切替（通常弾・拡散弾・EMP）
+            </li>
+            <li data-i18n="instructions.gravity">
+              E：重力フィールド展開（敵弾の軌道を曲げる）
+            </li>
+            <li data-i18n="instructions.pause">Esc／P：一時停止・再開</li>
+            <li data-i18n="instructions.startRetry">
+              Enter：任務開始　R：やり直し
+            </li>
           </ul>
         </div>
 
@@ -402,21 +448,23 @@
 
         <aside class="story-panel fade-object">
           <p class="story-kicker">MISSION BRIEFING</p>
-          <h2>コアから出ているのは、攻撃命令ではなく帰還信号だった</h2>
-          <p>
+          <h2 data-i18n="story.heading">
+            コアから出ているのは、攻撃命令ではなく帰還信号だった
+          </h2>
+          <p data-i18n-html="story.body1">
             西暦2187年<br />
             地球の奥深くで採掘で発見されたクリスタルが、軌道ステーション
             星のきろく のエネルギーコアと共鳴した
           </p>
-          <p>
+          <p data-i18n-html="story.body2">
             周辺の採掘ドローンは信号を古代装置への帰還命令として受信し、
             軌道ステーションへの突入を始める<br />
             防衛任務の目的は破壊ではない。クリスタル解析完了までの時間を稼ぎ、未知文明への扉を開くことだ
           </p>
           <div class="story-objectives">
-            <span>・軌道ステーションを守れ</span>
-            <span>・信号解析時間を稼げ</span>
-            <span>・古代のクリスタルを起動しよう</span>
+            <span data-i18n="story.objective1">・軌道ステーションを守れ</span>
+            <span data-i18n="story.objective2">・信号解析時間を稼げ</span>
+            <span data-i18n="story.objective3">・古代のクリスタルを起動しよう</span>
           </div>
         </aside>
 
@@ -424,11 +472,15 @@
           class="video-section fade-object"
           aria-labelledby="demoVideoTitle"
         >
-          <h2 id="demoVideoTitle">イントロ</h2>
-          <p>クリスタルに呼び寄せられるドローンと軌道ステーションの防衛</p>
+          <h2 id="demoVideoTitle" data-i18n="intro.title">イントロ</h2>
+          <p data-i18n="intro.copy">
+            クリスタルに呼び寄せられるドローンと軌道ステーションの防衛
+          </p>
           <video class="demo-video" controls preload="metadata" playsinline>
             <source src="assets/move/星のきろく_フル.mp4" type="video/mp4" />
-            お使いのブラウザは動画再生に対応していません。
+            <span data-i18n="intro.unsupported"
+              >お使いのブラウザは動画再生に対応していません。</span
+            >
           </video>
         </section>
       </section>
@@ -453,9 +505,16 @@
             >HIGH <strong id="highScoreDisplay">0</strong></span
           >
           <span class="hud-item"
-            >残機 <strong id="livesDisplay">3</strong></span
+            ><span data-i18n="hud.lives">残機</span>
+            <strong id="livesDisplay">3</strong></span
           >
-          <button id="pauseButton" class="btn btn-small">一時停止</button>
+          <button
+            id="pauseButton"
+            class="btn btn-small"
+            data-i18n="action.pause"
+          >
+            一時停止
+          </button>
         </header>
 
         <div class="battle-layout">
@@ -464,9 +523,19 @@
 
             <!-- 一時停止画面 -->
             <div id="pauseScreen" class="overlay-screen">
-              <h2>PAUSE（一時停止中）</h2>
-              <button id="resumeButton" class="btn btn-primary">再開</button>
-              <button id="pauseToTitleButton" class="btn">
+              <h2 data-i18n="pause.heading">PAUSE（一時停止中）</h2>
+              <button
+                id="resumeButton"
+                class="btn btn-primary"
+                data-i18n="action.resume"
+              >
+                再開
+              </button>
+              <button
+                id="pauseToTitleButton"
+                class="btn"
+                data-i18n="action.toTitle"
+              >
                 タイトルへ戻る
               </button>
             </div>
@@ -474,20 +543,47 @@
             <!-- ウェーブクリア（アップグレード選択）画面 -->
             <div id="waveClearScreen" class="overlay-screen">
               <h2>WAVE CLEAR</h2>
-              <p>コア残存ボーナス：<strong id="waveClearBonus">0</strong></p>
-              <p>現在の得点：<strong id="waveClearScore">0</strong></p>
-              <p class="upgrade-caption">強化を1つ選択して次のウェーブへ</p>
+              <p>
+                <span data-i18n="waveClear.coreBonus">コア残存ボーナス：</span
+                ><strong id="waveClearBonus">0</strong>
+              </p>
+              <p>
+                <span data-i18n="waveClear.currentScore">現在の得点：</span
+                ><strong id="waveClearScore">0</strong>
+              </p>
+              <p class="upgrade-caption" data-i18n="waveClear.caption">
+                強化を1つ選択して次のウェーブへ
+              </p>
               <div id="upgradeChoices" class="upgrade-choices"></div>
             </div>
 
             <!-- ゲームオーバー画面 -->
             <div id="gameOverScreen" class="overlay-screen">
               <h2>CORE LOST</h2>
-              <p>到達ウェーブ：<strong id="gameOverWave">1</strong></p>
-              <p>最終得点：<strong id="gameOverScore">0</strong></p>
-              <p>ハイスコア：<strong id="gameOverHighScore">0</strong></p>
-              <button id="retryButton" class="btn btn-primary">もう一度</button>
-              <button id="gameOverToTitleButton" class="btn">
+              <p>
+                <span data-i18n="gameOver.wave">到達ウェーブ：</span
+                ><strong id="gameOverWave">1</strong>
+              </p>
+              <p>
+                <span data-i18n="gameOver.finalScore">最終得点：</span
+                ><strong id="gameOverScore">0</strong>
+              </p>
+              <p>
+                <span data-i18n="gameOver.highScore">ハイスコア：</span
+                ><strong id="gameOverHighScore">0</strong>
+              </p>
+              <button
+                id="retryButton"
+                class="btn btn-primary"
+                data-i18n="action.retry"
+              >
+                もう一度
+              </button>
+              <button
+                id="gameOverToTitleButton"
+                class="btn"
+                data-i18n="action.toTitle"
+              >
                 タイトルへ戻る
               </button>
             </div>
@@ -495,13 +591,14 @@
 
           <!-- 右側：ミッション情報欄 -->
           <aside class="mission-panel">
-            <h2>ミッション情報</h2>
+            <h2 data-i18n="mission.title">ミッション情報</h2>
             <p class="operator-line">
-              オペレーター：<strong id="operatorNameDisplay">guest</strong>
+              <span data-i18n="mission.operator">オペレーター：</span
+              ><strong id="operatorNameDisplay">guest</strong>
             </p>
 
             <div class="mission-block">
-              <h3>防衛コア耐久</h3>
+              <h3 data-i18n="mission.coreHp">防衛コア耐久</h3>
               <div class="bar core-bar">
                 <div id="coreHpFill" class="bar-fill"></div>
               </div>
@@ -509,34 +606,47 @@
             </div>
 
             <div class="mission-block">
-              <h3>残りの敵の数</h3>
-              <p class="big-number"><span id="enemiesLeft">0</span> 機</p>
+              <h3 data-i18n="mission.enemiesLeft">残りの敵の数</h3>
+              <p class="big-number">
+                <span id="enemiesLeft">0</span>
+                <span data-i18n="mission.enemyUnit">機</span>
+              </p>
             </div>
 
             <div class="mission-block">
-              <h3>コンボ</h3>
+              <h3 data-i18n="mission.combo">コンボ</h3>
               <p class="big-number" id="comboText">—</p>
             </div>
 
             <div class="mission-block">
-              <h3>重力フィールド</h3>
-              <p id="gravityStatus" class="skill-status">展開可能 [E]</p>
+              <h3 data-i18n="mission.gravity">重力フィールド</h3>
+              <p
+                id="gravityStatus"
+                class="skill-status"
+                data-i18n="status.gravityReady"
+              >
+                展開可能 [E]
+              </p>
             </div>
 
             <div class="mission-block enemy-guide">
-              <h3>敵の種類</h3>
+              <h3 data-i18n="mission.enemyTypes">敵の種類</h3>
               <ul>
                 <li>
-                  <span class="dot dot-scout"></span>スカウト：曲線移動・射撃
+                  <span class="dot dot-scout"></span
+                  ><span data-i18n="enemy.scout">スカウト：曲線移動・射撃</span>
                 </li>
                 <li>
-                  <span class="dot dot-shielder"></span>シールド機：高耐久・低速
+                  <span class="dot dot-shielder"></span
+                  ><span data-i18n="enemy.shielder">シールド機：高耐久・低速</span>
                 </li>
                 <li>
-                  <span class="dot dot-driller"></span>ドリル機：コアへ直進
+                  <span class="dot dot-driller"></span
+                  ><span data-i18n="enemy.driller">ドリル機：コアへ直進</span>
                 </li>
                 <li>
-                  <span class="dot dot-splitter"></span>分裂機：撃破時に分裂
+                  <span class="dot dot-splitter"></span
+                  ><span data-i18n="enemy.splitter">分裂機：撃破時に分裂</span>
                 </li>
               </ul>
             </div>
@@ -545,23 +655,27 @@
 
         <!-- 下部：武器バー -->
         <footer class="weapon-bar">
-          <span class="weapon-label">武器切替</span>
+          <span class="weapon-label" data-i18n="weapon.label">武器切替</span>
           <button class="weapon-btn active" data-weapon="normal">
-            [1] 通常弾 <em>消費2</em>
+            <span data-i18n="weapon.normal">[1] 通常弾</span>
+            <em data-i18n="weapon.cost2">消費2</em>
           </button>
           <button class="weapon-btn" data-weapon="spread">
-            [2] 拡散弾 <em>消費8</em>
+            <span data-i18n="weapon.spread">[2] 拡散弾</span>
+            <em data-i18n="weapon.cost8">消費8</em>
           </button>
           <button class="weapon-btn" data-weapon="emp">
-            [3] EMP <em>消費30</em>
+            <span data-i18n="weapon.emp">[3] EMP</span>
+            <em data-i18n="weapon.cost30">消費30</em>
           </button>
-          <span class="weapon-hint"
+          <span class="weapon-hint" data-i18n="weapon.hint"
             >[Shift] ダッシュ 消費15　[E] 重力フィールド</span
           >
         </footer>
       </section>
     </div>
 
+    <script src="js/i18n.js"></script>
     <script src="js/config.js"></script>
     <script src="js/collision.js"></script>
     <script src="js/audio.js"></script>

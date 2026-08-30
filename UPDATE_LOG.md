@@ -2,6 +2,9 @@
 
 ## 2026-08-30
 
+- Added a Japanese / English switch below the title and localized the title screen, game HUD, status messages, overlays, weapons, and upgrade choices.
+- Saved the selected display language in the browser for future visits.
+- Moved normal and spread shot origins from the ship center to the triangular ship nose.
 - Added `LICENSE.md` for personal, non-commercial use.
 - Added `LICENSE.en.md` as an English translation, with language-switch links between both versions.
 - Permitted non-commercial screenshots and use in regular school classes.
