@@ -1,6 +1,8 @@
 ﻿// game.js — 星のきろく のゲーム進行管理
 // 防衛コア・重力フィールド・EMP・コンボ・選択式アップグレードを含む
 
+// Copyright (c) 2026 Shinsuke Oouchi. See ../LICENSE.md.
+
 class Game {
   constructor(canvas) {
     this.canvas = canvas;

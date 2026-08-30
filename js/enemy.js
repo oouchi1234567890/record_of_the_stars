@@ -1,5 +1,7 @@
 // enemy.js — 暴走ドローン（敵）5種の行動・描画と、ウェーブ中の出現管理
 
+// Copyright (c) 2026 Shinsuke Oouchi. See ../LICENSE.md.
+
 class Enemy {
   constructor(type, x, y, wave, scaling) {
     const cfg = ENEMY_CONFIG[type];

@@ -1,5 +1,7 @@
 // projectile.js — 自機弾・敵弾の管理（自由角度、重力フィールドによる偏向対応）
 
+// Copyright (c) 2026 Shinsuke Oouchi. See ../LICENSE.md.
+
 class Projectile {
   constructor(x, y, vx, vy, radius, friendly, damage, color) {
     this.x = x;

@@ -81,6 +81,10 @@
 
 ```text
 record_of_the_stars/
+├─ LICENSE.md
+├─ LICENSE.en.md
+├─ THIRD_PARTY_NOTICES.md
+├─ THIRD_PARTY_NOTICES.en.md
 ├─ index.html
 ├─ css/
 │  └─ style.css
@@ -97,11 +101,11 @@ record_of_the_stars/
 ├─ assets/
 │  ├─ images/
 │  └─ move/
-│     ├─ 星のきろく.mp4
 │     ├─ 星のきろく_フル.mp4
 │     ├─ watermello-sport-techno-477131.mp3
 │     └─ *.txt
-└─ README.md
+├─ README.md
+└─ UPDATE_LOG.md
 ```
 
 ## テストの実行
@@ -126,3 +130,22 @@ node tests/logic-test.js
 - 舞台設定は地球と軌道ステーション「Shin」を中心とした独自設定です。
 - 敵、自機、コアは独自のドローン / 軌道防衛設定で、既存ゲームのキャラクター画像、ロゴ、音声、ソースコードは使用していません。
 - 旧案の名称や設定は現行仕様では使用しません。
+
+## ライセンス
+
+Copyright (c) 2026 Shinsuke Oouchi. All rights reserved.
+
+本作品の著作権は放棄していません。本作品はオープンソースソフトウェアではありません。
+
+次の利用を許可しています。
+
+- 個人による非営利利用
+- 第三者へ公開・配布しない範囲での個人的な改造
+- 非営利目的でのプレイ画面のスクリーンショット公開
+- 学校の通常授業における実行、投影、教材利用およびプログラミング学習目的の改造
+
+商業利用、原版または改造版の一般公開・再配布は禁止しています。ゲーム実況、プレイ動画および音楽・映像の再配信には、著作権者の別途許可が必要です。
+
+詳しい条件は [日本語ライセンス](LICENSE.md) または [English License](LICENSE.en.md) を確認してください。両ファイルの冒頭から言語を切り替えられます。
+
+Pixabayの音楽やGoogle Fontsなどの第三者素材には、本ライセンスではなく、それぞれの権利者が定めるライセンスが適用されます。詳細は [第三者素材の表示](THIRD_PARTY_NOTICES.md)、[Third-Party Notices](THIRD_PARTY_NOTICES.en.md) および `assets/move/*.txt` を確認してください。

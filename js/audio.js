@@ -1,5 +1,7 @@
 // audio.js — Web Audio API による効果音の独自合成（外部素材は使用しない）
 
+// Copyright (c) 2026 Shinsuke Oouchi. See ../LICENSE.md.
+
 const AudioFX = (function () {
   let ctx = null;
   let volume = 0.5;

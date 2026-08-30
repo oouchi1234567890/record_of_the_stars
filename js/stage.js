@@ -1,6 +1,8 @@
 // stage.js — ウェーブ定義と編隊生成
 // 敵は格子状に整列させず、V字・波形・縦列・小集団の編隊で複数方向から出現させる
 
+// Copyright (c) 2026 Shinsuke Oouchi. See ../LICENSE.md.
+
 // 画面外の出現基準点
 const SPAWN_ANCHORS = {
   top: () => ({ x: 120 + Math.random() * (CANVAS_WIDTH - 240), y: -40 }),

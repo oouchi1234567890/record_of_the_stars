@@ -1,5 +1,7 @@
 // main.js — 初期化、キー入力、HUD更新、画面切り替え
 
+// Copyright (c) 2026 Shinsuke Oouchi. See ../LICENSE.md.
+
 (function () {
   const canvas = document.getElementById("gameCanvas");
   const game = new Game(canvas);

@@ -1,5 +1,7 @@
 // player.js — 防衛ドローン（自機）の状態、自由移動、エネルギー、ダッシュ
 
+// Copyright (c) 2026 Shinsuke Oouchi. See ../LICENSE.md.
+
 class Player {
   constructor() {
     this.radius = PLAYER_CONFIG.radius;

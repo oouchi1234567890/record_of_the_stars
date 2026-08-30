@@ -1,5 +1,7 @@
 // collision.js — 円同士の当たり判定とベクトル系ユーティリティ
 
+// Copyright (c) 2026 Shinsuke Oouchi. See ../LICENSE.md.
+
 function distance(ax, ay, bx, by) {
   const dx = bx - ax;
   const dy = by - ay;

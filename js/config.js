@@ -1,5 +1,7 @@
 ﻿// config.js — 星のきろく 全体の定数定義
 
+// Copyright (c) 2026 Shinsuke Oouchi. See ../LICENSE.md.
+
 const CANVAS_WIDTH = 960;
 const CANVAS_HEIGHT = 540;
 
