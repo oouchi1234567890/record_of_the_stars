@@ -1,5 +1,7 @@
 ﻿# 星のきろく
 
+**日本語** | [English](README.en.md)
+
 地球軌道防衛型アクションシューティングゲーム。
 
 星のきろくは、HTML、CSS および JavaScript の学習を目的として制作した、オリジナルの軌道防衛型アクションシューティングゲームです。ゲーム内のプログラム、キャラクター、画面構成および演出は独自に制作しています。第三者が権利を保有するゲームの画像、ロゴ、プログラムおよびキャラクターは使用していません。タイトル画面のイントロ動画には、Pixabay の Content License に基づく音源を利用しています。
@@ -112,6 +114,7 @@ record_of_the_stars/
 │     ├─ watermello-sport-techno-477131.mp3
 │     └─ *.txt
 ├─ README.md
+├─ README.en.md
 └─ UPDATE_LOG.md
 ```
 
