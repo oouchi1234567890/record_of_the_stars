@@ -2,9 +2,17 @@
 
 [日本語](README.md) | **English**
 
-An orbital defense action shooter.
+[Play the game on GitHub Pages](https://oouchi1234567890.github.io/record_of_the_stars/)
 
-Hoshi no Kiroku is an original orbital defense action shooter created for learning HTML, CSS, and JavaScript. The program, characters, screen layouts, and visual effects were created specifically for this game. It does not use images, logos, programs, or characters from games owned by third parties. Audio used in the title-screen intro video is provided under the Pixabay Content License.
+Hoshi no Kiroku is an action shooter about defending a station in Earth orbit.
+
+## How This Game Came to Be
+
+It began about 20 years ago as an assignment at a vocational school for networking. The first version told a story about Earth being invaded.
+
+After someone pointed out a copyright issue, I rebuilt the game in JavaScript. I then added features while discussing ideas with ChatGPT and Claude, gradually shaping it into Hoshi no Kiroku. Most of the development involved talking through ideas and implementation with ChatGPT. Sometimes things worked; sometimes they did not. That unpredictability was part of the fun.
+
+I am very grateful to my wife, miho, for the design, and to my son, kakeru, for helping debug the game. I hope you enjoy playing it.
 
 ## Japanese / English Display
 
