@@ -44,7 +44,7 @@ const I18n = (function () {
       "intro.title": "イントロ",
       "intro.copy":
         "クリスタルに呼び寄せられるドローンと軌道ステーションの防衛",
-      "intro.unsupported": "お使いのブラウザは動画再生に対応していません。",
+      "intro.imageAlt": "軌道ステーションの操縦席からクリスタルを見つめるパイロット",
       "hud.lives": "残機",
       "hud.bgm": "BGM",
       "hud.volume": "効果音",
@@ -130,7 +130,7 @@ const I18n = (function () {
       "intro.title": "INTRO",
       "intro.copy":
         "Defend the orbital station from drones drawn in by the crystal",
-      "intro.unsupported": "Your browser does not support video playback.",
+      "intro.imageAlt": "A pilot looking at the crystal from the orbital station cockpit",
       "hud.lives": "LIVES",
       "hud.bgm": "BGM",
       "hud.volume": "SFX",
@@ -220,6 +220,9 @@ const I18n = (function () {
     });
     document.querySelectorAll("[data-i18n-placeholder]").forEach((element) => {
       element.setAttribute("placeholder", t(element.dataset.i18nPlaceholder));
+    });
+    document.querySelectorAll("[data-i18n-alt]").forEach((element) => {
+      element.setAttribute("alt", t(element.dataset.i18nAlt));
     });
     document.querySelectorAll("[data-language]").forEach((button) => {
       const isActive = button.dataset.language === currentLanguage;

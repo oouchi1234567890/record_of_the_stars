@@ -109,8 +109,8 @@ record_of_the_stars/
 │  └─ config.js
 ├─ assets/
 │  ├─ images/
+│  │  └─ 星のきろく_フル.png
 │  └─ move/
-│     ├─ 星のきろく_フル.mp4
 │     ├─ watermello-sport-techno-477131.mp3
 │     └─ *.txt
 ├─ README.md
@@ -130,7 +130,7 @@ node tests/logic-test.js
 
 - ゲーム本体の画像素材は使用していません。自機、敵、弾、背景はすべて Canvas API の図形描画で表現しています。
 - ゲーム本体の効果音は、Web Audio API のオシレーターでリアルタイム合成しています。
-- タイトル画面のイントロ動画 `assets/move/星のきろく_フル.mp4` には、Pixabay Content License の音源を利用しています。ライセンス証明書は `assets/move/*.txt` に保管しています。
+- タイトル画面のイントロ画像は `assets/images/星のきろく_フル.png` です。
 - `assets/move/watermello-sport-techno-477131.mp3` は Pixabay Content License の音源です。単体素材として再配布・販売する用途ではなく、プロジェクト素材として管理しています。
 - 外部ライブラリは使用していません。Vanilla JavaScript で実装しています。
 

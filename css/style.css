@@ -783,7 +783,7 @@ body.gentle-title .ambient--three {
 body.gentle-title .login-panel,
 body.gentle-title .instructions,
 body.gentle-title .story-panel,
-body.gentle-title .video-section {
+body.gentle-title .intro-section {
   position: relative;
   z-index: 1;
   width: min(100%, 800px);
@@ -861,7 +861,7 @@ body.gentle-title .btn-primary:hover {
   background: #0ea5e9;
 }
 
-body.gentle-title .video-section {
+body.gentle-title .intro-section {
   margin-top: 18px;
   padding: 24px;
   background: rgba(255, 255, 255, 0.88);
@@ -872,23 +872,23 @@ body.gentle-title .video-section {
     inset 0 0 32px rgba(186, 230, 253, 0.18);
 }
 
-body.gentle-title .video-section h2 {
+body.gentle-title .intro-section h2 {
   margin: 0 0 8px;
   color: #075985;
   font-size: 18px;
 }
 
-body.gentle-title .video-section p {
+body.gentle-title .intro-section p {
   margin: 0 0 14px;
   color: #31566a;
   font-size: 13px;
   line-height: 1.7;
 }
 
-body.gentle-title .demo-video {
+body.gentle-title .demo-image {
   display: block;
   width: 100%;
-  aspect-ratio: 16 / 9;
+  height: auto;
   background: #e0f2fe;
   border: 1px solid rgba(125, 211, 252, 0.7);
   border-radius: 8px;

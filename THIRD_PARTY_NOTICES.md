@@ -8,20 +8,15 @@
 
 ## Pixabay 音源
 
-タイトル画面のイントロ動画およびプロジェクト内の音声素材には、Pixabay Content Licenseに基づく音源が含まれています。
+プロジェクト内の音声素材には、Pixabay Content Licenseに基づく音源が含まれています。
 
 | 音源 | 作者 | Pixabayページ | 証明書 |
 | --- | --- | --- | --- |
-| Wonders of the Earth | grand_project | [音源ページ](https://pixabay.com/ja/music/550792/) | [`assets/move/pixabay.txt`](assets/move/pixabay.txt) |
-| Technology - Tech Technology | apalonbeats | [音源ページ](https://pixabay.com/ja/music/549463/) | [`assets/move/pixabay2.txt`](assets/move/pixabay2.txt) |
 | Sport Techno | watermello | [音源ページ](https://pixabay.com/ja/music/477131/) | [`assets/move/watermello.txt`](assets/move/watermello.txt) |
 
 関連ファイル:
 
-- `assets/move/星のきろく_フル.mp4`
 - `assets/move/watermello-sport-techno-477131.mp3`
-- `assets/move/pixabay.txt`
-- `assets/move/pixabay2.txt`
 - `assets/move/watermello.txt`
 
 Pixabay Content Licenseおよび利用条件:

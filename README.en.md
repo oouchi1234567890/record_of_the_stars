@@ -102,8 +102,8 @@ record_of_the_stars/
 │  └─ config.js
 ├─ assets/
 │  ├─ images/
+│  │  └─ 星のきろく_フル.png
 │  └─ move/
-│     ├─ 星のきろく_フル.mp4
 │     ├─ watermello-sport-techno-477131.mp3
 │     └─ *.txt
 ├─ README.md
@@ -123,7 +123,7 @@ The automated tests mock browser APIs such as Canvas and `localStorage` and veri
 
 - The game itself does not use image assets. The fighter, enemies, projectiles, and background are all drawn with Canvas API shapes.
 - In-game sound effects are synthesized in real time with Web Audio API oscillators.
-- The title-screen intro video, `assets/move/星のきろく_フル.mp4`, uses audio provided under the Pixabay Content License. License certificates are stored in `assets/move/*.txt`.
+- The title-screen intro image is `assets/images/星のきろく_フル.png`.
 - `assets/move/watermello-sport-techno-477131.mp3` is provided under the Pixabay Content License. It is managed as a project asset and may not be redistributed or sold as a standalone asset.
 - No external libraries are used. The game is implemented in Vanilla JavaScript.
 
